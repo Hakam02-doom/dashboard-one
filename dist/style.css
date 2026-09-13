@@ -6,4 +6,4 @@
 
 .campaigns .table-scroll{max-height:286px;overflow:auto}td:first-child small{display:block;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 6px)}
 
-@media(max-width:600px){.campaigns .table-scroll{max-height:267px}}
+@media(max-width:600px){.campaigns{min-height:317px}.campaigns .table-scroll{max-height:274px}}
