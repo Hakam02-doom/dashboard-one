@@ -1,4 +1,4 @@
-# Uplift AI dashboard — expanded design draft
+# Dashboard One
 
 A static, responsive Uplift AI workspace adapted from the supplied screenshot. The six-card home overview, white canvas, navy rail, Inter typography, pastel charts, and restrained entrance motion are preserved. The screenshot's outer cyan frame has been removed.
 
@@ -9,6 +9,10 @@ The homepage contains only the original six-card overview. The sidebar stays anc
 The original application exposed LunchLink as the active workspace and Uplift AI as unfinished setup. The user chose Uplift AI. Therefore this draft uses Uplift AI content themes and clearly labeled illustrative metrics, rather than importing LunchLink's catering articles or reporting. No live analytics, AI scans, publishing connections, account data, or backend integrations are connected. Connection-dependent screens use explicit setup/empty states.
 
 Article edits, keyword plans, social topics, business/author profiles, and preferences are saved in this browser's local storage. They do not modify the original application or publish content. Google Fonts is the only external presentation dependency, with an Arial fallback.
+
+## Hosting
+
+Dashboard One is configured as a static Vercel project. The deployed output is `dist`; no build command or framework is required.
 
 ## Running
 
