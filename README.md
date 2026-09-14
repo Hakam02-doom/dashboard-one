@@ -2,7 +2,7 @@
 
 A static, responsive Uplift AI workspace adapted from the supplied screenshot. The six-card home overview, white canvas, navy rail, Inter typography, pastel charts, and restrained entrance motion are preserved. The screenshot's outer cyan frame has been removed.
 
-The expansion carries over the original dashboard's feature taxonomy and home content sections. It includes 30 routes across Home, SEO, AI Visibility, Google Business, Social Media, Setup, and Settings. Article review, filtering, local editing, calendar navigation, keyword planning, social captions, profile forms, appearance preferences, search, sharing, and CSV export work in the preview.
+The homepage contains only the original six-card overview. The sidebar stays anchored to the viewport while page content scrolls; the shell uses overflow clipping without creating a separate scroll container. The expanded feature views remain accessible through navigation. It includes 30 routes across Home, SEO, AI Visibility, Google Business, Social Media, Setup, and Settings. Article review, filtering, local editing, calendar navigation, keyword planning, social captions, profile forms, appearance preferences, search, sharing, and CSV export work in the preview.
 
 ## Preview data
 

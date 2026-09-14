@@ -61,19 +61,6 @@ function renderShell(){
  document.querySelectorAll('[data-avatars]').forEach(el=>el.innerHTML=`<span class="keyword-count">${el.dataset.count}</span><span>keywords</span>`);
  $('#histogram-bars').innerHTML=[7,7,7,8,10,14,19,44,28,48,60,48,28,18,11,8,7,7].map((h,i)=>`<i class="${i>=7&&i<=12?'lit':''}" style="--height:${h}px;animation-delay:${i*22}ms"></i>`).join('');
 }
-function renderHome(){
- $('#home-extension').innerHTML=`<div class="section-heading"><div><h2>Your workspace, in motion</h2><p>A clear view of what’s ready, what’s next, and what needs you.</p></div>${link('Open content calendar','calendar')}</div>`+
- stats([['Published content',articles.filter(a=>a.status==='Published').length,`${articles.length} total assets`],['Keyword queue',keywords.filter(k=>!k.planned).length,`${keywords.length} priority keywords`],['Planned social topics',topics.length,'Your recurring content plan'],['Generated post sets',6,'Ready for review']])+
- `<div class="extension-grid">`+card('Workspace progress',`<div class="setup-summary"><strong>Let’s make Uplift AI ready to grow.</strong>${badge('Setup unfinished','gold')}</div><p class="muted-copy">Your original Uplift AI setup is saved. Complete it to connect live content and reporting.</p><div class="setup-steps">${[['Business profile','Confirm your business and brand context','business-profile'],['SEO content plan','Build your keyword plan and publishing calendar','calendar'],['Social topic plan','Plan recurring content for every channel','social-calendar'],['Publishing connections','Connect your website and social destinations','integration'],['Generate SEO + Social','Review your first article and social content set','library']].map(([t,d,r],i)=>row(`<span class="step-number">${i+1}</span>${t}`,d,icon('chevron'),r)).join('')}</div>`,'business-profile')+
- card('Next best actions',row('Plan your next content batch','Review keyword priorities and decide what to publish.',badge('SEO','blue'),'calendar')+row('Review your social topic plan','Keep your recurring themes and publishing dates aligned.',badge('Social','lilac'),'social-calendar')+row('Review generated content','Inspect SEO scores and approve your next articles.',badge('2 to review','gold'),'library')+row('Connect your publishing accounts','Bring your website and social channels together.',badge('Setup','neutral'),'connections'))+
- `<div class="author-banner"><span class="empty-icon">${icon('people')}</span><div><h3>Set up your Author Profile for better SEO</h3><p>Add your name, bio, and credentials to strengthen E-E-A-T signals in search.</p></div>${link('Configure now','author','secondary-button')}</div>`+
- card('Upcoming content',articles.filter(a=>a.status!=='Published').slice(0,4).map(a=>row(esc(a.title),`${a.date.slice(8)} Sep 2026 · 08:00 AM`,statusBadge(a.status),'library')).join(''),'calendar')+
- card('Keyword opportunities',keywords.slice(0,5).map(k=>row(esc(k.term),`${k.volume.toLocaleString()} monthly searches`,badge(k.difficulty,k.difficulty==='Easy'?'green':'gold'),'discovery')).join(''),'discovery')+
- card('Upcoming social topics',topics.slice(0,4).map((t,i)=>row(t,`${14+i} Sep 2026 · 02:00 PM`,badge(i<2?'Generated':'Planned',i<2?'green':'lilac'),'social-calendar')).join(''),'social-calendar')+
- card('Generated social content',topics.slice(0,4).map((t,i)=>row(t,`${i%2===0?'2':'4'} platform outputs · Caption ready`,badge('Complete'),'social-posts')).join(''),'social-posts')+
- card('Workflow status',row('Website publishing','Choose where your SEO content goes.',badge('Not connected','neutral'),'integration')+row('Google Business Profile','Connect a location to sync profile and review data.',badge('Not connected','neutral'),'google')+row('Social publishing','Connect Instagram, Facebook, LinkedIn, and X.',badge('Setup needed','gold'),'connections'),'integration')+
- card('Recent activity',articles.slice(0,5).map((a,i)=>`<div class="activity-row"><i class="activity-dot ${i%2?'gold':'green'}"></i><div><strong>${esc(a.title)}</strong><small>${a.status==='Published'?'Article published':'Draft updated'} · Preview activity</small></div><time>${i?i+'d':'2h'}</time></div>`).join(''),'library')+`</div>`;
-}
 function navigate(){
  const requested=location.hash.slice(1)||'home';route=routes.some(r=>r.id===requested)?requested:'home';
  const meta=routes.find(r=>r.id===route), group=groups[meta.group];
@@ -83,7 +70,7 @@ function navigate(){
  document.querySelectorAll('[data-group]').forEach(el=>{const active=el.dataset.group===meta.group;el.classList.toggle('active',active);active?el.setAttribute('aria-current','page'):el.removeAttribute('aria-current')});
  $('#section-nav').hidden=route==='home';$('#section-nav').innerHTML=group.routes.map(([id,label])=>`<a href="#${id}" ${id===route?'aria-current="page"':''}>${label}</a>`).join('');
  $('#home-view').hidden=route!=='home';$('#module-view').hidden=route==='home';
- if(route==='home')renderHome();else renderModule();
+ if(route!=='home')renderModule();
  $('#search-results').hidden=true;$('#search').value='';window.scrollTo({top:0,behavior:'instant'});
 }
 function renderLibrary(){
@@ -191,7 +178,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('submit',e=>{
  const f=e.target;if(!(f instanceof HTMLFormElement))return;e.preventDefault();const d=new FormData(f);
  if(f.id==='new-content-form'){const title=d.get('title').trim();if(!title){toast('Enter an article title.');return}const id=Math.max(...articles.map(a=>a.id))+1;articles.push({id,title,category:d.get('category'),status:'Draft',score:0,minutes:0,date:'2026-09-14',body:''});save('articles',articles);dialog.close();location.hash='library';if(route==='library')renderModule();toast('New draft created on this device.');return}
- if(f.id==='article-form'){const a=articles.find(x=>x.id===Number(f.dataset.id)),title=d.get('title').trim();if(!title){toast('Enter an article title.');return}a.title=title;a.body=d.get('body');a.status=d.get('status');save('articles',articles);dialog.close();route==='home'?renderHome():renderModule();toast('Preview article saved. Nothing was published.');return}
+ if(f.id==='article-form'){const a=articles.find(x=>x.id===Number(f.dataset.id)),title=d.get('title').trim();if(!title){toast('Enter an article title.');return}a.title=title;a.body=d.get('body');a.status=d.get('status');save('articles',articles);dialog.close();if(route!=='home')renderModule();toast('Preview article saved. Nothing was published.');return}
  if(f.id==='keyword-form'){const term=d.get('term').trim();if(!term){toast('Enter a keyword.');return}keywords.push({id:Math.max(...keywords.map(k=>k.id))+1,term,volume:Number(d.get('volume')),difficulty:'Unscored',planned:true});save('keywords',keywords);dialog.close();location.hash='discovery';if(route==='discovery')renderModule();toast('Keyword added to your plan.');return}
  if(f.id==='topic-form'){const t=d.get('topic').trim();if(!t){toast('Enter a social topic.');return}topics.push(t);save('topics',topics);dialog.close();toast('Topic added to your preview plan.');location.hash='social-calendar';if(route==='social-calendar')renderModule();return}
  if(f.dataset.profileForm){save(f.dataset.profileForm,Object.fromEntries(d));toast('Profile saved on this device.');return}
