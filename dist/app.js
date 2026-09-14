@@ -64,7 +64,7 @@ function renderShell(){
 function navigate(){
  const requested=location.hash.slice(1)||'home';route=routes.some(r=>r.id===requested)?requested:'home';
  const meta=routes.find(r=>r.id===route), group=groups[meta.group];
- document.title=`${meta.label} · Uplift AI`;
+ document.title=`Dashboard 1 · ${meta.label} · Uplift AI`;
  $('.greeting h1').textContent=route==='home'?'Good Morning, Uplift':group.name;
  $('.greeting p').textContent=route==='home'?'Your content, search, and AI visibility. All together.':({seo:'Turn search demand into content that works.',ai:'Understand how AI engines discover your brand.',google:'Your local presence, thoughtfully managed.',social:'One idea, ready for every feed.',setup:'Give your growth workspace the right foundation.',settings:'Make this workspace work for you.'}[meta.group]||'Your Uplift AI workspace.');
  document.querySelectorAll('[data-group]').forEach(el=>{const active=el.dataset.group===meta.group;el.classList.toggle('active',active);active?el.setAttribute('aria-current','page'):el.removeAttribute('aria-current')});

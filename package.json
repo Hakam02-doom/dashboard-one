@@ -1,0 +1,15 @@
+{
+  "name": "dashboard-one",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dashboard.mjs dev",
+    "preview": "node scripts/dashboard.mjs preview",
+    "build": "node scripts/dashboard.mjs build",
+    "deploy": "node scripts/dashboard.mjs deploy",
+    "check:project": "node scripts/dashboard.mjs check",
+    "test:isolation": "node --test scripts/project-identity.test.mjs",
+    "prepare": "node scripts/setup-hooks.mjs"
+  }
+}
